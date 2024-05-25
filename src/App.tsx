@@ -1,15 +1,41 @@
-import { Button } from "./components/ui/button"
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import HomePage from './pages/HomePage/HomePage'
+import UserPage from './pages/UserPage/UserPage'
+import AuthenticatedUserPage from './pages/AuthenticatedUserPage/AuthenticatedUserPage'
+import Layout from './pages/Layout/Layout'
+
+const router = createBrowserRouter([
+	{
+		path: "/",
+		element:<Layout />,
+		children:[
+			{
+				index:true,
+				element: <HomePage/>
+
+			},
+			{
+				path: "/user",
+				element: <UserPage/>
+			},
+			{
+				path: "/user/:id",
+				element: <AuthenticatedUserPage/>
+			}
+		]
+	}
+])
 
 
-const App = () => {
+const App =  (props:any) => {
 
 	return (
-		<div className='text-[50px]'>
-			Hello, World! This is the client!
-			<br/>
-			<Button>Click me</Button>    
+		<div >
+			<RouterProvider router={router}/>
 		</div>
-	)
+	) 
+			
+	
 }
 
 export default App
