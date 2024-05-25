@@ -1,12 +1,15 @@
+import { Button } from "./components/ui/button"
 
-function App() {
 
-  return (
+const App = () => {
 
-    <div>
-      Hello, World! This is the client!
-    </div>
-  )
+	return (
+		<div className='text-[50px]'>
+			Hello, World! This is the client!
+			<br/>
+			<Button>Click me</Button>    
+		</div>
+	)
 }
 
 export default App
