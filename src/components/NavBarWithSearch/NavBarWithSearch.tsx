@@ -2,8 +2,13 @@
 import { setUser} from '../../redux/userSlice';
 import { useSelector, useDispatch } from "react-redux";
 
-import { Button } from "../ui/button";
-import { LayoutGridIcon } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+  } from "@/components/ui/popover"
+  
 import { MenuIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -42,6 +47,15 @@ const NavBarWithSearch =  (props:any) => {
 		}
 	}
 
+	const handlePopOver = () =>{
+		return(
+		<Popover>
+			<PopoverTrigger>Open</PopoverTrigger>
+			<PopoverContent>Place content for the popover here.</PopoverContent>
+		</Popover>
+		)
+	}
+
 	const hiddenContent =  () =>{
         return (
             <div style={{width: `${sideNav.width}`, transition: '0.25s'}} className="z-10 top-0 left-0 fixed h-screen bg-white border-solid border-[1px] border-r-black overflow-x-hidden ">
@@ -69,12 +83,42 @@ const NavBarWithSearch =  (props:any) => {
 
   	return (
 
-		<div className="w-screen flex dashed-outline">
+		<div id='navbar-with-search' className="w-screen flex  border-black border-solid border-[1px]">
 
 				{hiddenContent()}
 
-				<MenuIcon className="mt-[20px] ml-[20px]" size={36} strokeWidth={2} onClick={()=>{handleSideNav('open')}}/>
-				<p  onClick={()=>{handlePageNavigation('')}} className="font-bungee-shade text-[40px]">Logo</p>
+				{/* Div for menu icon and logo */}
+				<div id='menu-and-logo' className='flex w-[150px]  border-black border-dashed border-[1px]'>
+					<MenuIcon className="mt-[10px] ml-[10px] border-black border-solid border-[1px] rounded-[5px]" size={30} strokeWidth={1} onClick={()=>{handleSideNav('open')}}/>
+					<p  onClick={()=>{handlePageNavigation('')}} className="mt-[10px] ml-[10px] text-[24px]">Logo</p>					
+				</div>
+
+				{/* Div for search input, and popover with user avatar image. */}
+				<div id='search-and-avatar' className='min-w-[auto] max-w-[100%] border-black border-solid border-[1px] '>
+					<div id='search-div'>
+
+					</div>
+					<div id='popover-avatar-div' className='w-[auto] border-black border-solid border-[1px]  flex justify-end'>
+						<Popover>
+							<PopoverTrigger>
+								<Avatar>
+									<AvatarImage src="https://github.com/shadcn.png" />
+									<AvatarFallback>CN</AvatarFallback>
+								</Avatar>
+							</PopoverTrigger>
+							<PopoverContent className='w-[200px] mt-[10px]' >
+								<div onClick={()=>{handlePageNavigation('user/1')}}>
+									View Account
+								</div>
+								<div>
+									Logout
+								</div>
+								
+							</PopoverContent>
+						</Popover>
+					</div>
+
+				</div>
 		</div>
 	
   	);
