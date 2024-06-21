@@ -1,14 +1,14 @@
 
 import { setUser} from '../../redux/userSlice';
 import { useSelector, useDispatch } from "react-redux";
-
+import { Input } from '../ui/input';
+import { SearchIcon } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
-  } from "@/components/ui/popover"
-  
+} from "@/components/ui/popover"
 import { MenuIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -64,16 +64,16 @@ const NavBarWithSearch =  (props:any) => {
 
 				</div>
 				<div onClick={()=>{handlePageNavigation('')}}>
-					<p>Home</p>
+					<p>Page Link 1</p>
 				</div>	
 				<div>
-					<p>Explore Categories</p>
+					<p>Page Link 2</p>
 				</div>	
 				<div>
-					<p>Read Later</p>
+					<p>Page Link 3</p>
 				</div>						
 				<div>
-					<p>user</p>
+					<p>Page Link 4</p>
 				</div>	
 
 
@@ -83,7 +83,7 @@ const NavBarWithSearch =  (props:any) => {
 
   	return (
 
-		<div id='navbar-with-search' className="w-screen flex  border-black border-solid border-[1px]">
+		<div id='navbar-with-search' className="w-[100%] flex  border-black border-solid border-[1px]">
 
 				{hiddenContent()}
 
@@ -94,11 +94,20 @@ const NavBarWithSearch =  (props:any) => {
 				</div>
 
 				{/* Div for search input, and popover with user avatar image. */}
-				<div id='search-and-avatar' className='min-w-[auto] max-w-[100%] border-black border-solid border-[1px] '>
-					<div id='search-div'>
+				<div id='search-and-avatar' className=' flex justify-end w-[100%] border-black border-solid border-[1px] '>
 
+					<div id='search-div' className='flex justify-end mr-[35px] w-[100%] border-black border-solid border-[1px] '>
+						<div className='flex justify-end w-[100%] max-w-[770px] h-[40px] border-black border-dashed border-[1px] rounded-[5px]'>
+							<Input className='h-[100%] w-[300px]'/>
+							<SearchIcon className='ml-[20px] mr-[5px] mt-[5px]' size={32} strokeWidth={1.5} />
+						</div>
+						
 					</div>
-					<div id='popover-avatar-div' className='w-[auto] border-black border-solid border-[1px]  flex justify-end'>
+
+					{/* divider */}
+					<div className='h-[35px] mt-[5px] border-grey border-solid border-[1px]'></div>
+
+					<div id='popover-avatar-div' className=' ml-[20px] w-[auto] border-black border-solid border-[1px]  flex justify-end'>
 						<Popover>
 							<PopoverTrigger>
 								<Avatar>
@@ -108,10 +117,10 @@ const NavBarWithSearch =  (props:any) => {
 							</PopoverTrigger>
 							<PopoverContent className='w-[200px] mt-[10px]' >
 								<div onClick={()=>{handlePageNavigation('user/1')}}>
-									View Account
+									<p>View Account</p>
 								</div>
 								<div>
-									Logout
+									<p>Logout</p>
 								</div>
 								
 							</PopoverContent>
