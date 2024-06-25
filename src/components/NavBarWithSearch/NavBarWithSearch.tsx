@@ -58,7 +58,7 @@ const NavBarWithSearch =  (props:any) => {
 
 	const hiddenContent =  () =>{
         return (
-            <div style={{width: `${sideNav.width}`, transition: '0.25s'}} className="z-10 top-0 left-0 fixed h-screen bg-white border-solid border-[1px] border-r-black overflow-x-hidden ">
+            <div style={{width: `${sideNav.width}`, transition: '0.25s'}} className="z-10 top-0 left-0 fixed h-screen bg-white border-dashed border-[1px] border-r-black overflow-x-hidden ">
 				<div className="flex justify-end">
 					<p onClick={() => { handleSideNav('close'); }}>close</p>
 
@@ -83,7 +83,7 @@ const NavBarWithSearch =  (props:any) => {
 
   	return (
 
-		<div id='navbar-with-search' className="w-[100%] flex  border-black border-solid border-[1px]">
+		<div id='navbar-with-search' className="w-[100%] flex  border-black border-dashed border-[1px]">
 
 				{hiddenContent()}
 
@@ -94,20 +94,19 @@ const NavBarWithSearch =  (props:any) => {
 				</div>
 
 				{/* Div for search input, and popover with user avatar image. */}
-				<div id='search-and-avatar' className=' flex justify-end w-[100%] border-black border-solid border-[1px] '>
+				<div id='search-and-avatar' className=' flex justify-end w-[100%] border-black border-dashed border-[1px] '>
 
-					<div id='search-div' className='flex justify-end mr-[35px] w-[100%] border-black border-solid border-[1px] '>
-						<div className='flex justify-end w-[100%] max-w-[770px] h-[40px] border-black border-dashed border-[1px] rounded-[5px]'>
-							<Input className='h-[100%] w-[300px]'/>
-							<SearchIcon className='ml-[20px] mr-[5px] mt-[5px]' size={32} strokeWidth={1.5} />
+					<div id='search-div' className='flex justify-end mr-[35px] w-[100%] border-black border-dashed border-[1px] '>
+						<div className='flex justify-end w-[100%] max-w-[770px] h-[40px] border-black border-solid border-[1px] rounded-[5px]'>
+							<Input className='h-[100%] min-w-[300px] max-w-[100%]' placeholder="Search..."/>
+							<SearchIcon className='ml-[20px] mr-[5px] mt-[5px]  border-black border-dashed border-[1px]' size={32} strokeWidth={1.5} />
 						</div>
-						
-					</div>
+					</div> 
 
 					{/* divider */}
-					<div className='h-[35px] mt-[5px] border-grey border-solid border-[1px]'></div>
+					<div className='h-[35px] mt-[5px] border-grey border-dashed border-[1px]'></div>
 
-					<div id='popover-avatar-div' className=' ml-[20px] w-[auto] border-black border-solid border-[1px]  flex justify-end'>
+					<div id='popover-avatar-div' className=' ml-[20px] w-[auto] border-black border-dashed border-[1px]  flex justify-end'>
 						<Popover>
 							<PopoverTrigger>
 								<Avatar>

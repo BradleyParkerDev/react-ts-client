@@ -73,7 +73,9 @@ import {
 } from "@/components/ui/form"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useForm } from "react-hook-form"
+import loginUser from "@/lib/auth/loginUser"
 
+loginUser()
 const LoginUserForm = () => {
   const form = useForm({
     defaultValues: {
@@ -81,11 +83,11 @@ const LoginUserForm = () => {
       password: "",
       remember: false,
     },
-  })
+})
 
-  const onSubmit = (values:any) => {
+const onSubmit = (values:any) => {
     console.log(values)
-  }
+}
 
   return (
     <div className="relative flex flex-col justify-center items-center min-h-screen overflow-hidden">
@@ -130,7 +132,7 @@ const LoginUserForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Checkbox id="terms" checked={field.value} {...field} />
+                    {/* <Checkbox id="terms" checked={field.value} {...field} /> */}
                   </FormControl>
                   <FormLabel htmlFor="terms">
                     Remember me
