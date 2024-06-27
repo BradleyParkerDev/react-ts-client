@@ -1,6 +1,10 @@
-
 import { setUser} from '../../redux/userSlice';
-
+import { MenuIcon } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
+import {authClientUtil, dataClientUtil} from '@/lib'
+import logoutUser from '@/lib/auth/logoutUser';
+import { setAuthenticated } from '@/redux/authSlice';
 import { useSelector, useDispatch } from "react-redux";
 import { Input } from '../ui/input';
 import { SearchIcon } from 'lucide-react';
@@ -10,29 +14,53 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover"
-import { MenuIcon } from "lucide-react";
-import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
 
-import {authClientUtil, dataClientUtil} from '@/lib'
-import logoutUser from '@/lib/auth/logoutUser';
-import { setAuthenticated } from '@/redux/authSlice';
+
+
 const NavBarWithSearch =  (props:any) => {
 
-
-
-
-
-
-
+	// hooks
     const navigate = useNavigate()
 	const dispatch = useDispatch()
-
 	const auth = useSelector((state:any) => state.auth)
 	const user = useSelector((state:any) => state.user)
-
 	const [sideNav, setSideNav] = useState({isOpen:false,width:'0px'})
 
+	// delay function
+	const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+
+	// useEffect for authCheck and getUserData
+	useEffect(()=>{
+		const checkAuth = async ()=>{
+			const userAccessTokenValid = await authClientUtil.authCheck()
+			if(userAccessTokenValid){
+				dispatch(setAuthenticated({isAuth: true}))
+			}			
+		}
+
+		checkAuth()
+
+		const fetchUserData = async () =>{
+
+			// 1.5 second delay
+			await delay(1500)
+
+			// getUserData and setUser in redux
+			const userData = await dataClientUtil.getUserData()
+			dispatch(setUser({userData}))
+			console.log(userData)
+		}
+		
+		if(auth.isAuth){
+			console.log(`isAuth: ${auth.isAuth}`)		
+			fetchUserData()
+		}
+
+	},[auth.isAuth])
+  
+
+	// handler functions
     const handlePageNavigation = async (page:string) =>{
         navigate(`/${page}`)
     }
@@ -41,37 +69,7 @@ const NavBarWithSearch =  (props:any) => {
 		logoutUser()
 		navigate('/')
 	}
-
-	useEffect(()=>{
-
-		const checkAuth = async ()=>{
-			const userAccessTokenValid = await authClientUtil.authCheck()
-			if(userAccessTokenValid){
-				dispatch(setAuthenticated({isAuth: true}))
-			}			
-		}
-
-		const fetchUserData = async () =>{
-			const userData = await dataClientUtil.getUserData()
-			dispatch(setUser({userData}))
-			console.log(userData)
-		}
-
-		checkAuth()
-
-		if(auth.isAuth){
-
-
-
-			console.log(`isAuth: ${auth.isAuth}`)		
-			fetchUserData()
-		}
-
-
-
-	},[auth])
-
-	const handleSideNav =  (request:string) =>{
+	const handleSideNav = (request:string) =>{
 		if(request === 'open'){
 			const screenWidth = window.innerWidth;
             if (screenWidth < 300) {
@@ -88,22 +86,22 @@ const NavBarWithSearch =  (props:any) => {
 			setSideNav({isOpen:false,width:'0px'})
 		}
 	}
-
 	const handlePopOver = () =>{
 		return(
-		<Popover>
-			<PopoverTrigger>Open</PopoverTrigger>
-			<PopoverContent>Place content for the popover here.</PopoverContent>
-		</Popover>
+			<Popover>
+				<PopoverTrigger>Open</PopoverTrigger>
+				<PopoverContent>Place content for the popover here.</PopoverContent>
+			</Popover>
 		)
 	}
 
+
+	// NavBar hidden content
 	const hiddenContent =  () =>{
         return (
             <div style={{width: `${sideNav.width}`, transition: '0.25s'}} className="z-10 top-0 left-0 fixed h-screen bg-white border-dashed border-[1px] border-r-black overflow-x-hidden ">
 				<div className="flex justify-end">
 					<p onClick={() => { handleSideNav('close'); }}>close</p>
-
 				</div>
 				<div onClick={()=>{handlePageNavigation('')}}>
 					<p>Page Link 1</p>
@@ -117,14 +115,14 @@ const NavBarWithSearch =  (props:any) => {
 				<div>
 					<p>Page Link 4</p>
 				</div>	
-
-
             </div>
         );
 	}
 
-  	return (
 
+
+
+  	return (
 		<div id='navbar-with-search' className="w-[100%] flex  border-black border-dashed border-[1px]">
 
 				{hiddenContent()}

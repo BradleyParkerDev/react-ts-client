@@ -27,8 +27,8 @@ export const usersSlice = createSlice({
 		},
 		resetUser: () => {
 			return initialState;
-		},
-	},
+		}
+	}
 });
 
 export const { setUser, resetUser } = usersSlice.actions;

@@ -6,6 +6,9 @@ const apiBaseUrl: string = import.meta.env.VITE_API_BASE_URL;
 const getUserData = async () => {
 
     console.log(apiBaseUrl); // api 
+    // check local storage
+
+    // check server
     try {
         const response = await axios.get(`${apiBaseUrl}/users/get-user`)
         const userData = response.data.user
@@ -14,6 +17,10 @@ const getUserData = async () => {
     } catch (error) {
         console.log(`error fetching user data ${error}`) 
     }
+
+    // compare local storage and server lastUpdated times
+
+
 
 
 }
