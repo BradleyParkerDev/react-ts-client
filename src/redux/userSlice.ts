@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  id: '',
   firstName: '',
   lastName: '',
   emailAddress: '',
+  userName: '',
   userImage: '',
   lastUpdated: '',
 };
@@ -15,7 +15,15 @@ export const usersSlice = createSlice({
 	initialState,
 	reducers: {
 		setUser: (state, action) => {
-			return { ...action.payload };
+			console.log(action.payload.userData)
+			const { firstName, lastName, emailAddress, userName, userImage, lastUpdated } = action.payload.userData;
+			state.firstName = firstName;
+			state.lastName = lastName;
+			state.emailAddress = emailAddress;
+			state.userName = userName;
+			state.userImage = userImage;
+			state.lastUpdated = lastUpdated;
+			return state;
 		},
 		resetUser: () => {
 			return initialState;

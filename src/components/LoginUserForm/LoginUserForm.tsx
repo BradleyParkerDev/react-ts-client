@@ -75,13 +75,14 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { useForm } from "react-hook-form"
 import loginUser from "@/lib/auth/loginUser"
 
-loginUser()
 const LoginUserForm = () => {
-  const form = useForm({
+loginUser()
+
+const form = useForm({
     defaultValues: {
-      email: "",
-      password: "",
-      remember: false,
+		email: "",
+		password: "",
+		remember: false,
     },
 })
 

@@ -1,5 +1,6 @@
 
 import { setUser} from '../../redux/userSlice';
+
 import { useSelector, useDispatch } from "react-redux";
 import { Input } from '../ui/input';
 import { SearchIcon } from 'lucide-react';
@@ -13,7 +14,17 @@ import { MenuIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 
+import {authClientUtil, dataClientUtil} from '@/lib'
+import logoutUser from '@/lib/auth/logoutUser';
+import { setAuthenticated } from '@/redux/authSlice';
 const NavBarWithSearch =  (props:any) => {
+
+
+
+
+
+
+
     const navigate = useNavigate()
 	const dispatch = useDispatch()
 
@@ -26,8 +37,39 @@ const NavBarWithSearch =  (props:any) => {
         navigate(`/${page}`)
     }
 
+	const handleLogout = async () =>{
+		logoutUser()
+		navigate('/')
+	}
+
+	useEffect(()=>{
+
+		const checkAuth = async ()=>{
+			const userAccessTokenValid = await authClientUtil.authCheck()
+			if(userAccessTokenValid){
+				dispatch(setAuthenticated({isAuth: true}))
+			}			
+		}
+
+		const fetchUserData = async () =>{
+			const userData = await dataClientUtil.getUserData()
+			dispatch(setUser({userData}))
+			console.log(userData)
+		}
+
+		checkAuth()
+
+		if(auth.isAuth){
 
 
+
+			console.log(`isAuth: ${auth.isAuth}`)		
+			fetchUserData()
+		}
+
+
+
+	},[auth])
 
 	const handleSideNav =  (request:string) =>{
 		if(request === 'open'){
@@ -118,7 +160,7 @@ const NavBarWithSearch =  (props:any) => {
 								<div onClick={()=>{handlePageNavigation('user/1')}}>
 									<p>View Account</p>
 								</div>
-								<div>
+								<div onClick={()=>{handleLogout()}}>
 									<p>Logout</p>
 								</div>
 								
