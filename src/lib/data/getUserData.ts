@@ -12,7 +12,7 @@ const getUserData = async () => {
     try {
         const response = await axios.get(`${apiBaseUrl}/users/get-user`)
         const userData = response.data.user
-        console.log(userData)
+        // console.log(userData)
         return userData;        
     } catch (error) {
         console.log(`error fetching user data ${error}`) 

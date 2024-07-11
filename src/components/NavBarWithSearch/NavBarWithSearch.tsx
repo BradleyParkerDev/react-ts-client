@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import {authClientUtil, dataClientUtil} from '@/lib'
 import logoutUser from '@/lib/auth/logoutUser';
-import { setAuthenticated } from '@/redux/authSlice';
+import { setAuth } from '@/redux/authSlice';
 import { useSelector, useDispatch } from "react-redux";
 import { Input } from '../ui/input';
 import { SearchIcon } from 'lucide-react';
@@ -35,7 +35,7 @@ const NavBarWithSearch =  (props:any) => {
 		const checkAuth = async ()=>{
 			const userAccessTokenValid = await authClientUtil.authCheck()
 			if(userAccessTokenValid){
-				dispatch(setAuthenticated({isAuth: true}))
+				dispatch(setAuth({isAuth: true}))
 			}			
 		}
 
@@ -60,13 +60,17 @@ const NavBarWithSearch =  (props:any) => {
 	},[auth.isAuth])
   
 
+	
+
+
+
 	// handler functions
     const handlePageNavigation = async (page:string) =>{
         navigate(`/${page}`)
     }
 
 	const handleLogout = async () =>{
-		logoutUser()
+		logoutUser(dispatch)
 		navigate('/')
 	}
 	const handleSideNav = (request:string) =>{
