@@ -33,7 +33,7 @@ const NavBarWithSearch =  (props:any) => {
 	// useEffect for authCheck and getUserData
 	useEffect(()=>{
 		const checkAuth = async ()=>{
-			const userAccessTokenValid = await authClientUtil.authCheck()
+			const userAccessTokenValid = await authClientUtil.authCheck(dispatch)
 			if(userAccessTokenValid){
 				dispatch(setAuth({isAuth: true}))
 			}			
