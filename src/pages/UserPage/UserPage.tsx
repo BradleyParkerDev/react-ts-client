@@ -2,7 +2,8 @@ import React from 'react'
 import LoginUserForm from '@/components/LoginUserForm/LoginUserForm'
 import RegisterUserForm from '@/components/RegisterUserForm/RegisterUserForm'
 import DeleteUserButton from '@/components/DeleteUserButton/DeleteUserButton'
-import UpdatePasswordForm from '@/components/UpdatePasswordForm/UpdatePasswordForm'
+import UpdateUserPasswordForm from '@/components/UpdateUserPasswordForm/UpdateUserPasswordForm'
+import UpdateUserForm from '@/components/UpdateUserForm/UpdateUserForm'
 const UserPage = () => {
     return (
         <div>
@@ -13,7 +14,9 @@ const UserPage = () => {
             <br/>
             <DeleteUserButton />
             <br/>
-            <UpdatePasswordForm />
+            <UpdateUserPasswordForm />
+            <br/>
+            <UpdateUserForm />
         </div>
     )
 }

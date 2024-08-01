@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 
-const UpdatePasswordForm = () => {
+const UpdateUserPasswordForm = () => {
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -139,4 +139,4 @@ const UpdatePasswordForm = () => {
   );
 };
 
-export default UpdatePasswordForm;
+export default UpdateUserPasswordForm;
