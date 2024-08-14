@@ -15,39 +15,47 @@ import loginUser from "@/lib/auth/loginUser"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useDispatch } from 'react-redux'
+import { toggleForm } from "@/redux/layoutSlice"
 import { useState } from "react"
 
 const LoginUserForm = () => {
-  const dispatch = useDispatch();
-  const [showPassword, setShowPassword] = useState(false);
 
-  const formSchema = z.object({
-    emailAddress: z.string().email({
-      message: "Invalid email address.",
-    }),
-    password: z.string().min(6, {
-      message: "Password must be at least 6 characters.",
-    }),
-    showPassword: z.boolean(),
-  });
+	const dispatch = useDispatch();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      emailAddress: "",
-      password: "",
-      showPassword: false,
-    },
-  });
+	const switchToRegisterUserForm = async ()=>{
+		dispatch(toggleForm({showLoginForm: false}))		
+		console.log('Switching to RegisterUserForm!');
+	}
 
-  const onSubmit = async (formData: z.infer<typeof formSchema>) => {
-    const userData = {
-      emailAddress: formData.emailAddress,
-      password: formData.password,
-    };
-    await loginUser(userData, dispatch); // Corrected userDispatch argument
-    form.reset();
-  };
+	const [showPassword, setShowPassword] = useState(false);
+
+	const formSchema = z.object({
+		emailAddress: z.string().email({
+			message: "Invalid email address.",
+		}),
+		password: z.string().min(6, {
+			message: "Password must be at least 6 characters.",
+		}),
+		showPassword: z.boolean(),
+		});
+
+		const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			emailAddress: "",
+			password: "",
+			showPassword: false,
+		},
+	});
+
+	const onSubmit = async (formData: z.infer<typeof formSchema>) => {
+		const userData = {
+			emailAddress: formData.emailAddress,
+			password: formData.password,
+		};
+		await loginUser(userData, dispatch); // Corrected userDispatch argument
+		form.reset();
+	};
 
   return (
     <div className="relative flex flex-col justify-center items-center min-h-[450px] overflow-hidden w-[400px] border-solid border-grey border-[1px] rounded-[5px]">
@@ -111,7 +119,7 @@ const LoginUserForm = () => {
               <Button type="submit" className="w-full">Login</Button>
               <p className="mt-2 text-xs text-center text-gray-700">
                 Don't have an account?{" "}
-                <span className="text-blue-600 hover:underline">Sign up</span>
+                <span onClick={()=>{switchToRegisterUserForm()}} className="text-blue-600 hover:underline">Sign up</span>
               </p>
             </div>
           </form>

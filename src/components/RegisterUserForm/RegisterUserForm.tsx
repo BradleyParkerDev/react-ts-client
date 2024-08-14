@@ -15,60 +15,69 @@ import registerUser from "@/lib/data/registerUser"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useDispatch } from 'react-redux'
+import { toggleForm } from "@/redux/layoutSlice"
 import { useState } from "react"
 
 const RegisterUserForm = () => {
-  const dispatch = useDispatch();
-  const [showPassword, setShowPassword] = useState(false);
 
-  const formSchema = z.object({
-    firstName: z.string().min(2, {
-      message: "First name must be at least 2 characters.",
-    }),
-    lastName: z.string().min(2, {
-      message: "Last name must be at least 2 characters.",
-    }),
-    userName: z.string().min(2, {
-      message: "Username must be at least 2 characters.",
-    }),
-    emailAddress: z.string().email({
-      message: "Invalid email address.",
-    }),
-    password: z.string().min(6, {
-      message: "Password must be at least 6 characters.",
-    }),
-    confirmedPassword: z.string().min(6, {
-      message: "Confirm Password must be at least 6 characters.",
-    }),
-  }).refine((data) => data.password === data.confirmedPassword, {
-    message: "Passwords don't match",
-    path: ["confirmedPassword"], // Set the path of the error message.
-  });
+	const dispatch = useDispatch();
+	const switchToLoginUserForm = async ()=>{
+		dispatch(toggleForm({showLoginForm: true}));		
+		console.log('Switching to LoginUserForm!');
+	}
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      userName: "",
-      emailAddress: "",
-      password: "",
-      confirmedPassword: "",
-    },
-  });
 
-  const onSubmit = async (formData: z.infer<typeof formSchema>) => {
-    const userData = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      userName: formData.userName,
-      emailAddress: formData.emailAddress,
-      password: formData.password,
-    };
-    await registerUser(userData);
-	form.reset();
 
-  };
+	const [showPassword, setShowPassword] = useState(false);
+
+	const formSchema = z.object({
+		firstName: z.string().min(2, {
+		message: "First name must be at least 2 characters.",
+		}),
+		lastName: z.string().min(2, {
+		message: "Last name must be at least 2 characters.",
+		}),
+		userName: z.string().min(2, {
+		message: "Username must be at least 2 characters.",
+		}),
+		emailAddress: z.string().email({
+		message: "Invalid email address.",
+		}),
+		password: z.string().min(6, {
+		message: "Password must be at least 6 characters.",
+		}),
+		confirmedPassword: z.string().min(6, {
+		message: "Confirm Password must be at least 6 characters.",
+		}),
+		}).refine((data) => data.password === data.confirmedPassword, {
+		message: "Passwords don't match",
+		path: ["confirmedPassword"], // Set the path of the error message.
+	});
+
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+		firstName: "",
+		lastName: "",
+		userName: "",
+		emailAddress: "",
+		password: "",
+		confirmedPassword: "",
+		},
+	});
+
+	const onSubmit = async (formData: z.infer<typeof formSchema>) => {
+		const userData = {
+			firstName: formData.firstName,
+			lastName: formData.lastName,
+			userName: formData.userName,
+			emailAddress: formData.emailAddress,
+			password: formData.password,
+		};
+		await registerUser(userData);
+		form.reset();
+
+	};
 
   return (
     <div className="relative flex flex-col justify-center items-center min-h-[450px] overflow-hidden w-[400px] border-solid border-grey border-[1px] rounded-[5px]">
@@ -175,7 +184,7 @@ const RegisterUserForm = () => {
               <Button type="submit" className="w-full">Sign Up</Button>
               <p className="mt-2 text-xs text-center text-gray-700">
                 Have an account?{" "}
-                <span className="text-blue-600 hover:underline">Login</span>
+                <span onClick={()=>{switchToLoginUserForm()}} className="text-blue-600 hover:underline">Login</span>
               </p>
             </div>
           </form>

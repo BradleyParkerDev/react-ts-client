@@ -24,6 +24,7 @@ const NavBarWithSearch =  (props:any) => {
 	const dispatch = useDispatch()
 	const auth = useSelector((state:any) => state.auth)
 	const user = useSelector((state:any) => state.user)
+	const layout = useSelector((state:any) => state.layout)
 	const [sideNav, setSideNav] = useState({isOpen:false,width:'0px'})
 
 	// delay function
