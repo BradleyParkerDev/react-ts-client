@@ -25,7 +25,7 @@ const NavBarWithSearch =  (props:any) => {
 	const auth = useSelector((state:any) => state.auth)
 	const user = useSelector((state:any) => state.user)
 	const layout = useSelector((state:any) => state.layout)
-	const [sideNav, setSideNav] = useState({isOpen:false,width:'0px'})
+	const [drawer, setDrawer] = useState({open:false,width:'0px'})
 
 	// delay function
 	const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -74,21 +74,21 @@ const NavBarWithSearch =  (props:any) => {
 		logoutUser(dispatch)
 		navigate('/')
 	}
-	const handleSideNav = (request:string) =>{
+	const handleDrawer = (request:string) =>{
 		if(request === 'open'){
 			const screenWidth = window.innerWidth;
             if (screenWidth < 300) {
-				setSideNav({isOpen:true,width:'100%'})
+				setDrawer({open:true,width:'100%'})
 
             }else{
-				setSideNav({isOpen:true,width:'300px'})
+				setDrawer({open:true,width:'300px'})
 
 			}
 			console.log(open)
 		} 
 		
 		if(request === 'close'){
-			setSideNav({isOpen:false,width:'0px'})
+			setDrawer({open:false,width:'0px'})
 		}
 	}
 	const handlePopOver = () =>{
@@ -102,11 +102,11 @@ const NavBarWithSearch =  (props:any) => {
 
 
 	// NavBar hidden content
-	const hiddenContent =  () =>{
+	const navbarDrawer =  () =>{
         return (
-            <div style={{width: `${sideNav.width}`, transition: '0.25s'}} className="z-10 top-0 left-0 fixed h-screen bg-white border-dashed border-[1px] border-r-black overflow-x-hidden ">
+            <div style={{width: `${drawer.width}`, transition: '0.25s'}} className="z-10 top-0 left-0 absolute h-screen bg-white border-dashed border-[1px] border-r-black overflow-x-hidden ">
 				<div className="flex justify-end">
-					<p onClick={() => { handleSideNav('close'); }}>close</p>
+					<p onClick={() => { handleDrawer('close'); }}>close</p>
 				</div>
 				<div onClick={()=>{handlePageNavigation('')}}>
 					<p>Page Link 1</p>
@@ -128,13 +128,13 @@ const NavBarWithSearch =  (props:any) => {
 
 
   	return (
-		<div id='navbar-with-search' className="w-[100%] flex  border-black border-dashed border-[1px]">
+		<div id='navbar-with-search' className=" relative w-[100%] flex  border-black border-dashed border-[1px]">
 
-				{hiddenContent()}
+				{navbarDrawer()}
 
 				{/* Div for menu icon and logo */}
 				<div id='menu-and-logo' className='flex w-[150px]  border-black border-dashed border-[1px]'>
-					<MenuIcon className="mt-[10px] ml-[10px] border-black border-solid border-[1px] rounded-[5px]" size={30} strokeWidth={1} onClick={()=>{handleSideNav('open')}}/>
+					<MenuIcon className="mt-[10px] ml-[10px] border-black border-solid border-[1px] rounded-[5px]" size={30} strokeWidth={1} onClick={()=>{handleDrawer('open')}}/>
 					<p  onClick={()=>{handlePageNavigation('')}} className="mt-[10px] ml-[10px] text-[24px]">Logo</p>					
 				</div>
 

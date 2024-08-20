@@ -44,13 +44,6 @@ const UserPage = () => {
             {layout.showLoginForm && <LoginUserForm />}
             <br/>
             {!layout.showLoginForm && <RegisterUserForm />}
-            {/* UserPage
-            <br/>
-            <DeleteUserButton />
-            <br/>
-            <UpdateUserPasswordForm />
-            <br/>
-            <UpdateUserForm /> */}
         </div>
     )
 }
